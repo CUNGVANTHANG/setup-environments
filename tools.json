@@ -1,0 +1,50 @@
+[
+    {
+        "id": "nodejs",
+        "os": "windows",
+        "name": "Node.js Setup",
+        "icon": "📦",
+        "description": "Installs Node.js (Version Selectable), manages 'nvm' style switching via Scoop, and auto-fixes PATH variables.",
+        "path": "windows/setup-nodejs.ps1"
+    },
+    {
+        "id": "python",
+        "os": "windows",
+        "name": "Python Setup",
+        "icon": "🐍",
+        "description": "Installs specific Python versions (e.g., 3.12, 3.9), handles parallel installations, and uninstalls cleanly.",
+        "path": "windows/setup-python.ps1"
+    },
+    {
+        "id": "java",
+        "os": "windows",
+        "name": "Java JDK Setup",
+        "icon": "☕",
+        "description": "Installs JDKs (Temurin, OpenJDK) via Scoop. Supports Java 8, 17, 21 LTS versions with switch capability.",
+        "path": "windows/setup-java.ps1"
+    },
+    {
+        "id": "javahome",
+        "os": "windows",
+        "name": "JAVA_HOME Tool",
+        "icon": "⚙️",
+        "description": "Scans for installed JDKs and allows you to set the system JAVA_HOME variable and update PATH interactively.",
+        "path": "windows/setup-javahome.ps1"
+    },
+    {
+        "id": "php",
+        "os": "windows",
+        "name": "PHP Setup",
+        "icon": "🐘",
+        "description": "Installs PHP versions (8.x, 7.x) via Scoop's versions bucket. Supports switching active versions.",
+        "path": "windows/setup-php.ps1"
+    },
+    {
+        "id": "laravel",
+        "os": "windows",
+        "name": "Laravel Commands",
+        "icon": "🚀",
+        "description": "Cheatsheet of common Laravel Artisan commands for development, migrations, and optimization.",
+        "path": "windows/laravel-commands.txt"
+    }
+]

@@ -1,0 +1,37 @@
+# Common Laravel Artisan Commands
+
+### Setup & Dependencies
+composer install           # Install project dependencies
+php artisan key:generate   # Generate application key
+php artisan storage:link   # Create public storage symbolic link
+php artisan migrate:fresh --seed # Drop all tables, run migrations, and seed
+# Note: Ensure extensions (fileinfo, pdo_mysql) are enabled in php.ini 
+# (Use the "Enable Extensions" option in PHP Setup Tool to fix this)
+
+### Development Server
+php artisan serve          # Start the local development server (http://127.0.0.1:8000)
+
+### Migration & Database
+php artisan migrate        # Run database migrations
+php artisan migrate:rollback # Rollback the last database migration
+php artisan migrate:fresh  # Drop all tables and re-run all migrations
+php artisan db:seed        # Seed the database with records
+
+### Make (Generators)
+php artisan make:controller [Name]      # Create a new Controller class
+php artisan make:model [Name] -m        # Create a new Model and a Migration file
+php artisan make:migration [Name]       # Create a new migration file
+php artisan make:middleware [Name]      # Create a new Middleware class
+php artisan make:request [Name]         # Create a form request class
+
+### Optimization & Cache
+php artisan optimize       # Cache framework bootstrap files
+php artisan optimize:clear # Remove all cache files
+php artisan config:cache   # Create a cache file for faster configuration loading
+php artisan route:cache    # Create a route cache file for faster route registration
+php artisan view:clear     # Clear compiled view files
+
+### Utility
+php artisan list           # List all available Artisan commands
+php artisan route:list     # List all registered routes
+php artisan help [command] # Display help for a specific command

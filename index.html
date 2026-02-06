@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Environment Setup Tools</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --code-bg: #020617;
+            --border: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--accent), #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle { color: var(--text-secondary); }
+
+        .os-badge {
+            display: inline-block;
+            background: #334155;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: var(--accent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .icon {
+            font-size: 2rem;
+            background: rgba(56, 189, 248, 0.1);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        h2 { font-size: 1.25rem; }
+
+        .desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            height: 60px; /* Uniform height */
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            z-index: 1001;
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 0.5rem;
+        }
+
+        .close-btn:hover { color: var(--text-primary); }
+
+        .modal-body {
+            padding: 0;
+            overflow-y: auto;
+            flex: 1;
+            background: #020617;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            white-space: pre;
+        }
+
+        /* Modal Styles */
+        /* ... existing modal styles ... */
+        .copy-modal-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-modal-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .view-btn {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            margin-top: auto; 
+        }
+
+        .view-btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff; /* White text for active state */
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Modal Styles */
+        /* ... (keep existing modal styles if possible, but previous replace might have overwritten, so including essential modal parts if needed, but assuming they are safe above line 130) */ 
+        /* Actually, I need to be careful not to break existing styles. I am replacing from style block end usually? No, I am replacing effectively the whole body logic part or appending style. */
+        /* Let's assume standard CSS block is fine, adding logic below */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Environment Setup Tools</h1>
+            <p class="subtitle">Automated setup scripts for Dev Environment</p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('windows')">Windows</button>
+                <button class="tab-btn" onclick="switchTab('linux')">Linux</button>
+            </div>
+        </header>
+
+        <div class="grid" id="toolsGrid">
+            <!-- Tools will be rendered here by JavaScript -->
+            <div style="color: var(--text-secondary); text-align: center; grid-column: 1/-1;">Loading tools...</div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="scriptModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modalTitle" class="modal-title">Script Viewer</span>
+                <div style="display: flex; align-items: center;">
+                    <button class="copy-modal-btn" onclick="copyModalContent(this)">📋 Copy Code</button>
+                    <button class="close-btn" onclick="closeModal()">×</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <pre><code id="scriptContent">Loading...</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allTools = [];
+        let currentTab = 'windows';
+
+        // Data Fetching and Rendering
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('tools.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to load tools.json');
+                    return response.json();
+                })
+                .then(tools => {
+                    allTools = tools;
+                    renderTools();
+                })
+                .catch(err => {
+                    const grid = document.getElementById('toolsGrid');
+                    grid.innerHTML = `<div style="color: #ef4444; text-align: center; grid-column: 1/-1;">
+                        Error loading tools: ${err.message}<br>
+                        (Make sure tools.json exists and you are running a local server)
+                    </div>`;
+                    console.error(err);
+                });
+        });
+
+        function switchTab(os) {
+            currentTab = os;
+            
+            // Update UI
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.toLowerCase().includes(os)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            renderTools();
+        }
+
+        function renderTools() {
+            const grid = document.getElementById('toolsGrid');
+            grid.innerHTML = ''; 
+
+            const filteredTools = allTools.filter(t => t.os === currentTab);
+
+            if (filteredTools.length === 0) {
+                grid.innerHTML = `<div style="color: var(--text-secondary); text-align: center; grid-column: 1/-1; padding: 2rem;">
+                    <h3>No tools available yet for ${currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}.</h3>
+                    <p>Check back later!</p>
+                </div>`;
+                return;
+            }
+
+            filteredTools.forEach(tool => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="icon">${tool.icon}</div>
+                        <div>
+                            <h2>${tool.name}</h2>
+                        </div>
+                    </div>
+                    <p class="desc">${tool.description}</p>
+                    <button onclick="viewScript('${tool.path}', '${tool.name}')" class="view-btn">
+                        👁️ View Script
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('scriptModal');
+        const content = document.getElementById('scriptContent');
+        const title = document.getElementById('modalTitle');
+
+        function viewScript(path, name) {
+            title.innerText = name;
+            content.innerText = 'Loading...';
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; 
+
+            fetch(path)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(text => {
+                    content.innerText = text;
+                })
+                .catch(err => {
+                    content.innerText = 'Error loading file: ' + err.message;
+                    console.error(err);
+                });
+        }
+
+        function copyModalContent(btn) {
+            const code = content.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = '✅ Copied!';
+                btn.style.borderColor = '#10b981';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.borderColor = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy to clipboard');
+            });
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
